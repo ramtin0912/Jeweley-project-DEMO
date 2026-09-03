@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Vazirmatn', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+
+  ::selection {
+    background: rgb(169 211 220 / 0.5);
+    color: #3a332c;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #d5c091 transparent;
+  }
+}
+
+@layer components {
+  /* Light color-scheme for the public storefront root (native controls). */
+  .atelier-root {
+    color-scheme: light;
+  }
+
+  /* Pale crescent moon + scattered sparkle sky behind the hero. */
+  .moon-sky {
+    background:
+      radial-gradient(48% 44% at 78% 12%, rgb(234 223 198 / 0.9), transparent 62%),
+      radial-gradient(30% 30% at 78% 12%, rgb(169 211 220 / 0.42), transparent 68%),
+      radial-gradient(22% 20% at 30% 24%, rgb(196 199 205 / 0.35), transparent 70%);
+  }
+
+  /* A single large, soft crescent moon drawn with layered radial gradients. */
+  .crescent-moon {
+    position: absolute;
+    width: min(60vw, 34rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 62% 34%, rgb(255 252 244 / 0.98), rgb(234 223 198 / 0.9) 58%, rgb(234 223 198 / 0.15) 72%, transparent 74%);
+  }
+
+  /* Tiny twinkling sparkles (rhinestones) — animated. */
+  .sparkle-field {
+    background-image: radial-gradient(rgb(169 211 220 / 0.9) 1.1px, transparent 1.2px),
+      radial-gradient(rgb(196 199 205 / 0.7) 1px, transparent 1.1px);
+    background-position: 0 0, 30px 22px;
+    background-size: 78px 78px, 110px 110px;
+    animation: twinkle 5.5s ease-in-out infinite;
+  }
+
+  .reveal {
+    animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Shared warm card panel. */
+  .panel {
+    @apply rounded-2xl border border-silver/70 bg-white shadow-[0_2px_20px_-12px_rgba(58,51,44,0.18)];
+  }
+
+  /* Warm primary / secondary buttons. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-clay px-7 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-clay-400 hover:shadow-[0_10px_30px_-10px_rgba(181,103,74,0.6)];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-silver/90 bg-white px-7 py-3 text-sm font-semibold text-ink transition-all duration-300 hover:border-clay hover:text-clay;
+  }
+
+  /* Shared dark-on-light form-field. */
+  .field-input {
+    @apply mt-1.5 w-full rounded-xl border border-silver/80 bg-white px-3.5 py-2.5 text-ink placeholder:text-ink-400 focus:border-ice-500 focus:outline-none focus:ring-1 focus:ring-ice-500/50;
+  }
+
+  /* Admin panel content panels. */
+  .mbx-panel {
+    @apply rounded-xl border border-neutral-200 bg-white p-4;
+  }
+
+  .markdown-content h1 {
+    @apply mt-6 mb-3 font-serif text-3xl font-bold text-ink;
+  }
+  .markdown-content h2 {
+    @apply mt-5 mb-2 font-serif text-2xl font-bold text-ink;
+  }
+  .markdown-content p {
+    @apply mb-4 leading-relaxed text-ink-400;
+  }
+  .markdown-content ul {
+    @apply mb-4 list-disc space-y-1 pr-6 text-ink-400;
+  }
+  .markdown-content a {
+    @apply text-clay underline;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

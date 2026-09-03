@@ -1,0 +1,44 @@
+# Render Blueprint — one-click public demo deploy (free tier).
+# Deploy via: Render Dashboard → New → Blueprint → point at this repo.
+# Alternatively use Vercel + Neon (see README) for a faster, no-cold-start demo.
+#
+# NOTE: the free Postgres instance is created by this blueprint. After the first
+# deploy, run the one-time setup against the DB:
+#   npx prisma migrate deploy   (applies the schema)
+#   npx prisma db seed          (loads demo catalog + demo admin/orders)
+services:
+  - type: web
+    name: evtag-jewelry
+    runtime: node
+    plan: free
+    autoDeploy: true
+    buildCommand: npm install && npm run build
+    startCommand: node .output/server/index.mjs
+    healthCheckPath: /api/products
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: evtag-db
+          property: connectionString
+      - key: DEMO_MODE
+        value: "true"
+      - key: DEMO_PAYMENT
+        value: "true"
+      - key: ZARINPAL_SANDBOX
+        value: "true"
+      - key: ZARINPAL_MERCHANT_ID
+        value: "00000000-0000-0000-0000-000000000000"
+      - key: ADMIN_SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        value: "evtag-demo-2026"
+      - key: DEMO_ADMIN_USER
+        value: "admin"
+      - key: DEMO_ADMIN_PASSWORD
+        value: "evtag-demo-2026"
+
+databases:
+  - name: evtag-db
+    plan: free

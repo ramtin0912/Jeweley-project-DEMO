@@ -1,0 +1,66 @@
+# Builds the fully static storefront and publishes it to GitHub Pages.
+# The full-stack Render deploy on this repo is NOT affected: the static config is
+# gated behind NUXT_STATIC=true (set only here), and the output is `.output/public`.
+name: Deploy static storefront to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # `prisma generate` only validates the schema (no DB connection needed), but
+      # the prisma config requires a DATABASE_URL string. Available for every step
+      # (npm ci runs `prisma generate` in postinstall) and for the build.
+      DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/jewelry_store?schema=public'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm cache / Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        env:
+          NUXT_STATIC: 'true'
+          # Base path = the public repo name (GitHub Pages serves at /<repo>/).
+          NUXT_APP_BASE_URL: '/Jeweley-project-DEMO/'
+          DEMO_MODE: 'true'
+        run: npm run build:static
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
