@@ -23,7 +23,7 @@ const navLinks = [
     />
 
     <header class="sticky top-0 z-40 border-b border-silver/70 bg-paper/85 backdrop-blur-sm">
-      <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-4 px-4 py-4 sm:px-6">
         <NuxtLink to="/" class="group flex flex-col leading-none">
           <span class="flex items-center gap-2 font-serif text-2xl font-bold text-ink">
             <span aria-hidden="true" class="text-ice-500">✦</span>
@@ -34,7 +34,7 @@ const navLinks = [
           </span>
         </NuxtLink>
 
-        <nav class="hidden items-center gap-8 text-sm md:flex">
+        <nav class="order-last flex w-full items-center gap-4 text-sm md:order-none md:w-auto md:gap-8">
           <NuxtLink
             v-for="link in navLinks"
             :key="link.to"
@@ -62,17 +62,6 @@ const navLinks = [
           </span>
         </button>
       </div>
-
-      <nav class="flex items-center gap-6 overflow-x-auto border-t border-silver/60 px-4 py-3 text-sm md:hidden sm:px-6">
-        <NuxtLink
-          v-for="link in navLinks"
-          :key="link.to"
-          :to="link.to"
-          class="shrink-0 text-ink-400 transition-colors duration-300 hover:text-ink"
-        >
-          {{ link.label }}
-        </NuxtLink>
-      </nav>
     </header>
 
     <main class="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
