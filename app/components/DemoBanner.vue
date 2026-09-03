@@ -10,10 +10,10 @@ withDefaults(defineProps<{
   linkTo?: string
   linkLabel?: string
 }>(), {
-  label: 'نسخهٔ نمایشی — همهٔ محتوا فقط‌خواندنی است',
+  label: 'نسخهٔ نمایشی — به پنل مدیریت بروید و آزادانه امتحان کنید',
   showLink: false,
   linkTo: '/admin',
-  linkLabel: 'مشاهدهٔ پنل (فقط‌خواندنی)'
+  linkLabel: 'ورود به پنل مدیریت'
 })
 </script>
 

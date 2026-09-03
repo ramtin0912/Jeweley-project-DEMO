@@ -19,7 +19,7 @@ const navLinks = [
     <DemoBanner
       :show-link="true"
       link-to="/admin"
-      link-label="مشاهدهٔ پنل مدیریت"
+      link-label="ورود به پنل مدیریت"
     />
 
     <header class="sticky top-0 z-40 border-b border-silver/70 bg-paper/85 backdrop-blur-sm">
